@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d18">
+<title>Vall Store — AM Pro Assistant</title>
+<style>
+:root{color-scheme:dark;--bg:#080d18;--panel:#101827;--line:#243148;--muted:#94a3b8;--text:#f3f7ff;--blue:#3985ff;--cyan:#62d6ff}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--bg)}
+body{margin:0;background:radial-gradient(ellipse at 10% 8%,#10254a 0,transparent 36%),radial-gradient(ellipse at 95% 45%,#07313b 0,transparent 32%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;overflow-x:hidden}
+.topbar{max-width:1080px;margin:auto;padding:20px 22px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #172235;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font-weight:800;letter-spacing:1px;font-size:14px}
+.brand b{color:#72b7ff}.brand small{display:block;color:#7f91ab;font-size:9px;letter-spacing:2px;margin-top:3px}
+.brand-mark{display:grid;place-items:center;flex-shrink:0;width:40px;height:40px;border-radius:12px;background:linear-gradient(145deg,#3985ff,#1550c4);box-shadow:0 5px 24px #1768ff40;font-size:23px}
+.secure{font-size:10px;letter-spacing:.7px;color:#a6b5ca;border:1px solid #26364c;padding:8px 10px;border-radius:30px;white-space:nowrap}
+.secure i,.pulse{display:inline-block;width:7px;height:7px;background:#46dca3;border-radius:50%;margin-right:6px}
+main{max-width:900px;margin:0 auto;padding:48px 18px 30px}
+.hero{text-align:center;max-width:640px;margin:0 auto 28px}
+.eyebrow{font-size:10px;letter-spacing:2px;color:#8fbaff;font-weight:800}.pulse{background:var(--blue);box-shadow:0 0 12px #3985ff}
+h1{font-size:clamp(36px,8vw,58px);line-height:1.06;letter-spacing:-1.8px;margin:18px 0 14px;font-weight:800}
+h1 span{background:linear-gradient(90deg,#5c9cff,#7de0ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.intro{font-size:14px;line-height:1.75;color:#a8b5c8;max-width:510px;margin:0 auto}
+.notice{display:flex;gap:12px;text-align:left;background:#101c2b;border:1px solid #25415c;padding:14px;border-radius:13px;margin-top:22px}
+.notice-icon{flex-shrink:0;display:grid;place-items:center;width:23px;height:23px;border-radius:50%;border:1px solid #65b9ff;color:#65b9ff;font-weight:800;font-size:12px}
+.notice p{margin:0;font-size:12px;line-height:1.65;color:#b6c8dc}.notice b{color:#e7f4ff;font-size:13px}
+.panel{max-width:570px;margin:0 auto;background:linear-gradient(160deg,#121d2e,#0c1422);border:1px solid #26364c;border-radius:20px;padding:24px;box-shadow:0 24px 70px #0005}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.step-label{font-size:9px;letter-spacing:1.7px;color:#80a9db;font-weight:800}
+.panel h2,.how h2{font-size:22px;margin:7px 0 0}
+.version{font-size:10px;border:1px solid #30445e;border-radius:7px;padding:6px 8px;color:#9cb0c9}
+.steps{display:flex;align-items:center;margin:25px 0}
+.step{display:flex;align-items:center;gap:7px;color:#71829b;font-size:11px;white-space:nowrap}
+.step span{width:29px;height:29px;border:1px solid #34445b;border-radius:50%;display:grid;place-items:center;font-size:10px;flex-shrink:0}
+.step.active{color:#d8e8ff}.step.active span{background:#1c4c93;border-color:#438fff;color:white;box-shadow:0 0 18px #3985ff30}
+.step-line{height:1px;background:#2a3b52;flex:1;margin:0 8px}
+label{display:block;font-size:12px;color:#dce7f6;margin:0 0 9px;font-weight:700}
+label em{color:#6bb4ff;font-style:normal}
+input,select{display:block;width:100%;min-width:0;padding:13px 14px;border-radius:10px;border:1px solid #2a3b52;background:#0a1220;color:#f3f7ff;font:inherit;font-size:14px;outline:none;margin:0 0 8px}
+input:focus,select:focus{border-color:#3985ff;box-shadow:0 0 0 3px #3985ff20}
+input::placeholder{color:#596a81}
+.hint{color:#8192aa;font-size:10px;line-height:1.5;margin:2px 0 21px}
+.primary,.secondary{display:block;width:100%;border:0;border-radius:10px;padding:14px 16px;font:700 13px system-ui,sans-serif;cursor:pointer;transition:.2s}
+.primary{background:linear-gradient(90deg,#347cff,#2663d7);color:white;box-shadow:0 8px 22px #2269ec2b}
+.primary:hover{filter:brightness(1.1)}.primary span{float:right;font-size:18px;line-height:12px}
+.secondary{margin-top:10px;background:#17253a;color:#c8ddfa;border:1px solid #30445e}
+.fineprint{text-align:center;font-size:10px;line-height:1.6;color:#75869e;margin:16px 0 0}
+.result{margin-top:16px;padding:14px;border:1px solid #315078;background:#0b1b30;border-radius:12px;font-size:12px;line-height:1.7;color:#c6d8ee;overflow-wrap:anywhere}
+.result strong{color:#eaf4ff}.result .ref{font-family:monospace;color:#75bdff}
+.hidden{display:none!important}
+.how{margin:52px auto 10px}.how h2{text-align:center;margin-bottom:18px}
+.how-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.how-grid article{border:1px solid #1d2b40;background:#0c1422;border-radius:13px;padding:17px}
+.how-grid article>span{font-size:10px;color:#70adff;font-weight:800;letter-spacing:1px}
+.how-grid h3{font-size:13px;margin:11px 0 7px}.how-grid p{font-size:11px;line-height:1.7;color:#8ea0b8;margin:0}
+footer{max-width:1080px;margin:28px auto 0;padding:20px 22px 28px;border-top:1px solid #172235;display:flex;align-items:center;gap:10px;color:#9aabc0;font-size:11px}
+.brand-mark.small{width:30px;height:30px;border-radius:9px;font-size:16px}footer p{margin:0}footer small{display:block;color:#65768e;margin-top:4px;font-size:10px}
+@media(max-width:560px){.topbar{padding:15px 14px}.brand{font-size:12px}.brand-mark{width:36px;height:36px}.secure{font-size:8px;padding:7px}.secure i{margin-right:3px}main{padding:36px 13px 24px}h1{letter-spacing:-1.2px}.intro{font-size:13px}.panel{padding:19px 15px;border-radius:17px}.steps{margin:22px 0}.step{gap:5px;font-size:10px}.step-line{margin:0 5px}.how-grid{grid-template-columns:1fr}.how-grid article{padding:15px}.how{margin-top:40px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#" aria-label="Vall Store beranda"><span class="brand-mark">V</span><span>VALL <b>STORE</b><small>AM PRO ASSISTANT</small></span></a>
+  <span class="secure"><i></i> LAYANAN STATUS</span>
+</header>
+<main>
+  <section class="hero">
+    <div class="eyebrow"><span class="pulse"></span> DIGITAL SERVICE • V1</div>
+    <h1>Alight Motion<br><span>Pro Assistant</span></h1>
+    <p class="intro">Mulai proses bantuan langganan dengan tampilan yang cepat, rapi, dan nyaman di HP.</p>
+    <div class="notice"><span class="notice-icon">i</span><p><b>Info penting</b><br>Halaman ini belum mengaktifkan Pro secara langsung. Aktivasi harus dikonfirmasi melalui Alight Motion atau penyedia resmi. Jangan masukkan password, kode OTP, maupun tautan login pribadi di sini.</p></div>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><div><span class="step-label">PROSES PEMBANTUAN</span><h2>Mulai permintaan</h2></div><span class="version">V1.0</span></div>
+    <div class="steps" aria-label="Tahapan">
+      <div class="step active" data-step="1"><span>01</span><small>Email</small></div><div class="step-line"></div>
+      <div class="step" data-step="2"><span>02</span><small>Pemeriksaan</small></div><div class="step-line"></div>
+      <div class="step" data-step="3"><span>03</span><small>Hasil</small></div>
+    </div>
+    <form id="requestForm">
+      <label for="email">Email akun Alight Motion <em>*</em></label>
+      <input id="email" name="email" type="email" autocomplete="email" placeholder="nama@email.com" required maxlength="254">
+      <p class="hint">Demo ini tidak mengirim atau menyimpan email ke server.</p>
+      <label for="purpose">Keperluan</label>
+      <select id="purpose" name="purpose"><option value="check">Saya ingin memeriksa status langganan</option><option value="help">Saya perlu bantuan terkait langganan</option></select>
+      <button class="primary" type="submit">Lanjutkan <span>→</span></button>
+    </form>
+    <div id="result" class="result hidden" aria-live="polite"></div>
+    <button id="reset" class="secondary hidden" type="button">Buat permintaan baru</button>
+    <p class="fineprint">Demo V2 • Belum terhubung ke API aktivasi atau layanan pembayaran.</p>
+  </section>
+  <section class="how">
+    <h2>Bagaimana prosesnya?</h2>
+    <div class="how-grid">
+      <article><span>01</span><h3>Buat permintaan</h3><p>Isi email untuk membuat nomor referensi demo.</p></article>
+      <article><span>02</span><h3>Periksa layanan</h3><p>Gunakan aplikasi dan kanal dukungan resmi untuk memeriksa langganan.</p></article>
+      <article><span>03</span><h3>Konfirmasi hasil</h3><p>Status Pro hanya dinyatakan aktif setelah dikonfirmasi oleh layanan terkait.</p></article>
+    </div>
+  </section>
+</main>
+<footer><span class="brand-mark small">V</span><p>© <span id="year"></span> Vall Store <small>Independent service interface • Tidak berafiliasi dengan Alight Motion.</small></p></footer>
+<script>
+const form=document.getElementById('requestForm');
+const result=document.getElementById('result');
+const reset=document.getElementById('reset');
+const steps=[...document.querySelectorAll('.step')];
+document.getElementById('year').textContent=new Date().getFullYear();
+form.addEventListener('submit',function(event){
+  event.preventDefault();
+  const email=document.getElementById('email').value.trim();
+  const purpose=document.getElementById('purpose').value;
+  if(!email||!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)){
+    result.classList.remove('hidden');
+    result.textContent='Format email belum valid. Periksa kembali lalu coba lagi.';
+    return;
+  }
+  const ref='VALL-'+Math.random().toString(36).slice(2,8).toUpperCase();
+  steps.forEach((step,index)=>step.classList.toggle('active',index<3));
+  result.classList.remove('hidden');
+  result.innerHTML='<strong>Permintaan demo dibuat</strong><br>Nomor referensi: <span class="ref">'+ref+'</span><br><br>'+
+    (purpose==='check'?'Buka aplikasi Alight Motion dan pastikan akun yang benar sedang digunakan untuk memeriksa status langganan.':'Gunakan kanal dukungan resmi Alight Motion untuk bantuan langganan.')+
+    '<br><br><strong>Status:</strong> Menunggu pemeriksaan manual.<br>Ini hanya demo antarmuka. Email tidak dikirim ke server dan aktivasi Pro tidak dilakukan oleh halaman ini.';
+  form.classList.add('hidden');reset.classList.remove('hidden');
+});
+reset.addEventListener('click',function(){
+  form.reset();form.classList.remove('hidden');result.classList.add('hidden');reset.classList.add('hidden');
+  steps.forEach((step,index)=>step.classList.toggle('active',index===0));
+});
+</script>
+</body>
+</html>
